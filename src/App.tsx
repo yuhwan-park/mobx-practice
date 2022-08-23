@@ -1,6 +1,43 @@
-function App() {
-  return <div></div>;
-}
+import { observer } from "mobx-react-lite";
+import React, { useState } from "react";
+import { TodoStore } from "./stores/TodoStore";
+
+const App = observer(({ todoStore }: { todoStore: TodoStore }) => {
+  const [title, setTitle] = useState("");
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    todoStore.addTodo(title);
+    setTitle("");
+  };
+
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.currentTarget.value);
+          }}
+        />
+      </form>
+      <p>완료된 할일 : {todoStore.completedTodosCount}개</p>
+      <div>
+        {todoStore.todos.map((todo) => (
+          <div key={todo.title}>
+            <input
+              type="checkbox"
+              onChange={() => todoStore.toggleTodo(todo)}
+              checked={todo.completed}
+            />
+            <p>{todo.title}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+});
 
 export default App;
 
