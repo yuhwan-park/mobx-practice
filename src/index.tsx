@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { todoStore } from "./stores/TodoStore";
+import { TodoContextProvider } from "./context";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -9,7 +9,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App todoStore={todoStore} />
+    <TodoContextProvider>
+      <App />
+    </TodoContextProvider>
   </React.StrictMode>
 );
 

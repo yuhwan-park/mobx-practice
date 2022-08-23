@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 
 export interface Todo {
+  id: number;
   title: string;
   completed: boolean;
 }
@@ -18,6 +19,7 @@ class TodoStore {
 
   addTodo(title: string) {
     this.todos.push({
+      id: +Math.random().toFixed(6),
       title,
       completed: false,
     });
@@ -25,6 +27,10 @@ class TodoStore {
 
   toggleTodo(todo: Todo) {
     todo.completed = !todo.completed;
+  }
+
+  deleteTodo(id: number) {
+    this.todos = this.todos.filter((todo) => todo.id !== id);
   }
 }
 
